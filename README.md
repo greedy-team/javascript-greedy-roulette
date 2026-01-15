@@ -1,5 +1,5 @@
 <p align="middle" >
-  <img width="200px;" src="https://github.com/greedy-team/javascript-greedy-roulette/blob/main/images/roullete.jpeg?raw=true"/>
+  <img width="400px;" src="https://github.com/greedy-team/javascript-greedy-roulette/blob/main/images/roullete.jpeg?raw=true"/>
 </p>
 <h1 align="middle">탐욕의 룰렛 게임</h1>
 
