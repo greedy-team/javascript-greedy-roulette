@@ -1,0 +1,272 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+#app {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 32px;
+  max-width: 500px;
+  width: 100%;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+h1 {
+  text-align: center;
+  color: #1a1a2e;
+  margin-bottom: 24px;
+  font-size: 28px;
+}
+
+.info-box {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.info-box p {
+  font-size: 16px;
+  color: #333;
+}
+
+.info-box strong {
+  color: #1a1a2e;
+}
+
+.color-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.color-chip {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+  color: white;
+}
+
+.color-chip.yellow {
+  background: #ffc107;
+  color: #333;
+}
+
+.color-chip.green {
+  background: #28a745;
+}
+
+.color-chip.blue {
+  background: #007bff;
+}
+
+.color-chip.purple {
+  background: #6f42c1;
+}
+
+.color-chip.red {
+  background: #dc3545;
+}
+
+#game-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.input-group label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+}
+
+.input-group select,
+.input-group input {
+  padding: 12px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: border-color 0.2s;
+}
+
+.input-group select:focus,
+.input-group input:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.button-group {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+button {
+  flex: 1;
+  padding: 14px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+#bet-button {
+  background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+  color: white;
+}
+
+#bet-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.4);
+}
+
+#bet-button:disabled {
+  background: #cccccc;
+  cursor: not-allowed;
+}
+
+#stop-button {
+  background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+  color: white;
+}
+
+#stop-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(108, 117, 125, 0.4);
+}
+
+#stop-button:disabled {
+  background: #cccccc;
+  cursor: not-allowed;
+}
+
+#restart-button {
+  display: none;
+  background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%);
+  color: white;
+  margin-top: 20px;
+}
+
+#restart-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(40, 167, 69, 0.4);
+}
+
+#result-box {
+  display: none;
+  margin-top: 20px;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 12px;
+  text-align: center;
+}
+
+#result-content {
+  font-size: 16px;
+  color: #333;
+}
+
+.spinning {
+  font-size: 18px;
+  color: #007bff;
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.result-color {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-weight: bold;
+  color: white;
+}
+
+.result-color.yellow {
+  background: #ffc107;
+  color: #333;
+}
+
+.result-color.green {
+  background: #28a745;
+}
+
+.result-color.blue {
+  background: #007bff;
+}
+
+.result-color.purple {
+  background: #6f42c1;
+}
+
+.result-color.red {
+  background: #dc3545;
+}
+
+.win {
+  color: #28a745;
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 12px;
+}
+
+.lose {
+  color: #dc3545;
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 12px;
+}
+
+.final-result {
+  padding: 16px;
+}
+
+.final-result h2 {
+  color: #1a1a2e;
+  margin-bottom: 16px;
+  font-size: 24px;
+}
+
+.final-result p {
+  font-size: 18px;
+  margin: 8px 0;
+  color: #333;
+}
+
+#error-msg {
+  color: #dc3545;
+  font-size: 14px;
+  min-height: 20px;
+}
