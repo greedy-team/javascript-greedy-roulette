@@ -1,21 +1,21 @@
 class GameView {
   constructor() {
     this.elements = {
-      currentMoney: document.getElementById('current-money'),
-      currentRound: document.getElementById('current-round'),
-      colorSelect: document.getElementById('color-select'),
-      betAmount: document.getElementById('bet-amount'),
-      betButton: document.getElementById('bet-button'),
-      stopButton: document.getElementById('stop-button'),
-      restartButton: document.getElementById('restart-button'),
-      gameControls: document.getElementById('game-controls'),
-      resultBox: document.getElementById('result-box'),
-      resultContent: document.getElementById('result-content'),
+      currentMoney: document.getElementById("current-money"),
+      currentRound: document.getElementById("current-round"),
+      colorSelect: document.getElementById("color-select"),
+      betAmount: document.getElementById("bet-amount"),
+      betButton: document.getElementById("bet-button"),
+      stopButton: document.getElementById("stop-button"),
+      restartButton: document.getElementById("restart-button"),
+      gameControls: document.getElementById("game-controls"),
+      resultBox: document.getElementById("result-box"),
+      resultContent: document.getElementById("result-content"),
     };
   }
 
   formatMoney(amount) {
-    return amount.toLocaleString('ko-KR');
+    return amount.toLocaleString("ko-KR");
   }
 
   updateMoney(amount) {
@@ -27,11 +27,11 @@ class GameView {
   }
 
   hideRestartButton() {
-    this.elements.restartButton.style.display = 'none';
+    this.elements.restartButton.style.display = "none";
   }
 
   hideResultBox() {
-    this.elements.resultBox.style.display = 'none';
+    this.elements.resultBox.style.display = "none";
   }
 
   getSelectedColor() {
@@ -40,9 +40,9 @@ class GameView {
 
   getBetAmount() {
     const value = this.elements.betAmount.value;
-    if (!/^\d+$/.test(value)) {
-      return 0;
-    }
+    // if (!/^\d+$/.test(value)) {
+    //   return 0;
+    // }
     return parseInt(value, 10);
   }
 
@@ -52,16 +52,17 @@ class GameView {
   }
 
   bindBetButton(handler) {
-    this.elements.betButton.addEventListener('click', handler);
+    this.elements.betButton.addEventListener("click", handler);
   }
 
   bindStopButton(handler) {
-    this.elements.stopButton.addEventListener('click', handler);
+    this.elements.stopButton.addEventListener("click", handler);
   }
 
   showSpinning() {
-    this.elements.resultBox.style.display = 'block';
-    this.elements.resultContent.innerHTML = '<p class="spinning">룰렛을 돌리는 중...</p>';
+    this.elements.resultBox.style.display = "block";
+    this.elements.resultContent.innerHTML =
+      '<p class="spinning">룰렛을 돌리는 중...</p>';
   }
 
   showResult(color, isWin, amount) {
@@ -77,7 +78,7 @@ class GameView {
   }
 
   showFinalResult(money, round) {
-    this.elements.resultBox.style.display = 'block';
+    this.elements.resultBox.style.display = "block";
     this.elements.resultContent.innerHTML = `
       <div class="final-result">
         <h2>게임 종료</h2>
@@ -88,20 +89,20 @@ class GameView {
   }
 
   hideControls() {
-    this.elements.gameControls.style.display = 'none';
+    this.elements.gameControls.style.display = "none";
   }
 
   showControls() {
-    this.elements.gameControls.style.display = 'block';
+    this.elements.gameControls.style.display = "block";
   }
 
   showRestartButton() {
-    this.elements.restartButton.style.display = 'block';
+    this.elements.restartButton.style.display = "block";
   }
 
   resetInputs() {
-    this.elements.colorSelect.value = '';
-    this.elements.betAmount.value = '';
+    this.elements.colorSelect.value = "";
+    this.elements.betAmount.value = "";
   }
 
   reset() {
@@ -113,7 +114,7 @@ class GameView {
   }
 
   bindRestartButton(handler) {
-    this.elements.restartButton.addEventListener('click', handler);
+    this.elements.restartButton.addEventListener("click", handler);
   }
 }
 
