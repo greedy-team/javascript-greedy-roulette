@@ -1,0 +1,3 @@
+const INITIAL_MONEY = 10000;
+
+export { INITIAL_MONEY };
