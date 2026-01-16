@@ -62,6 +62,18 @@ class GameView {
     this.elements.resultBox.style.display = 'block';
     this.elements.resultContent.innerHTML = '<p class="spinning">룰렛을 돌리는 중...</p>';
   }
+
+  showResult(color, isWin, amount) {
+    const colorClass = color.toLowerCase();
+    const resultMessage = isWin
+      ? `<p class="win">베팅 성공! +${this.formatMoney(amount)}원</p>`
+      : `<p class="lose">베팅 실패! -${this.formatMoney(amount)}원</p>`;
+
+    this.elements.resultContent.innerHTML = `
+      <p>룰렛 결과: <span class="result-color ${colorClass}">${color}</span></p>
+      ${resultMessage}
+    `;
+  }
 }
 
 export { GameView };

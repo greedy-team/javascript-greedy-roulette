@@ -37,6 +37,14 @@ class GameModel {
   getMultiplier(color) {
     return COLORS[color].multiplier;
   }
+
+  addMoney(amount) {
+    this.money += amount;
+  }
+
+  incrementRound() {
+    this.round += 1;
+  }
 }
 
 export { GameModel };

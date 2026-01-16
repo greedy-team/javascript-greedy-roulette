@@ -37,6 +37,20 @@ class GameController {
 
   resolveRound(betColor, betAmount) {
     const resultColor = this.model.spin();
+    const isWin = betColor === resultColor;
+    this.model.incrementRound();
+
+    if (isWin) {
+      const multiplier = this.model.getMultiplier(betColor);
+      const winnings = betAmount + betAmount * multiplier;
+      this.model.addMoney(winnings);
+      this.view.showResult(resultColor, true, winnings);
+    } else {
+      this.view.showResult(resultColor, false, betAmount);
+    }
+
+    this.view.updateMoney(this.model.getMoney());
+    this.view.updateRound(this.model.getRound());
     this.view.setButtonsDisabled(false);
   }
 
