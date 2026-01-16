@@ -9,6 +9,7 @@ class GameView {
       stopButton: document.getElementById('stop-button'),
       restartButton: document.getElementById('restart-button'),
       resultBox: document.getElementById('result-box'),
+      resultContent: document.getElementById('result-content'),
     };
   }
 
@@ -55,6 +56,11 @@ class GameView {
 
   bindStopButton(handler) {
     this.elements.stopButton.addEventListener('click', handler);
+  }
+
+  showSpinning() {
+    this.elements.resultBox.style.display = 'block';
+    this.elements.resultContent.innerHTML = '<p class="spinning">룰렛을 돌리는 중...</p>';
   }
 }
 

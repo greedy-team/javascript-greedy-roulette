@@ -1,9 +1,20 @@
-import { INITIAL_MONEY } from '../constants/gameConstants.js';
+import { INITIAL_MONEY, COLORS, VALID_COLORS } from '../constants/gameConstants.js';
 
 class GameModel {
   constructor() {
     this.money = INITIAL_MONEY;
     this.round = 0;
+    this.slots = this.createSlots();
+  }
+
+  createSlots() {
+    const slots = [];
+    VALID_COLORS.forEach((color) => {
+      for (let i = 0; i < COLORS[color].slots; i += 1) {
+        slots.push(color);
+      }
+    });
+    return slots;
   }
 
   getMoney() {
@@ -16,6 +27,15 @@ class GameModel {
 
   deductMoney(amount) {
     this.money -= amount;
+  }
+
+  spin() {
+    const randomIndex = Math.floor(Math.random() * this.slots.length);
+    return this.slots[randomIndex];
+  }
+
+  getMultiplier(color) {
+    return COLORS[color].multiplier;
   }
 }
 
