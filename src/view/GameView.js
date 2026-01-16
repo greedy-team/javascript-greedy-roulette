@@ -8,6 +8,7 @@ class GameView {
       betButton: document.getElementById('bet-button'),
       stopButton: document.getElementById('stop-button'),
       restartButton: document.getElementById('restart-button'),
+      gameControls: document.getElementById('game-controls'),
       resultBox: document.getElementById('result-box'),
       resultContent: document.getElementById('result-content'),
     };
@@ -73,6 +74,46 @@ class GameView {
       <p>룰렛 결과: <span class="result-color ${colorClass}">${color}</span></p>
       ${resultMessage}
     `;
+  }
+
+  showFinalResult(money, round) {
+    this.elements.resultBox.style.display = 'block';
+    this.elements.resultContent.innerHTML = `
+      <div class="final-result">
+        <h2>게임 종료</h2>
+        <p>최종 자금: ${this.formatMoney(money)}원</p>
+        <p>플레이한 라운드: ${round}</p>
+      </div>
+    `;
+  }
+
+  hideControls() {
+    this.elements.gameControls.style.display = 'none';
+  }
+
+  showControls() {
+    this.elements.gameControls.style.display = 'block';
+  }
+
+  showRestartButton() {
+    this.elements.restartButton.style.display = 'block';
+  }
+
+  resetInputs() {
+    this.elements.colorSelect.value = '';
+    this.elements.betAmount.value = '';
+  }
+
+  reset() {
+    this.showControls();
+    this.hideRestartButton();
+    this.hideResultBox();
+    this.resetInputs();
+    this.setButtonsDisabled(false);
+  }
+
+  bindRestartButton(handler) {
+    this.elements.restartButton.addEventListener('click', handler);
   }
 }
 

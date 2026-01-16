@@ -49,6 +49,15 @@ class GameModel {
   isValidColor(color) {
     return VALID_COLORS.includes(color);
   }
+
+  isBankrupt() {
+    return this.money <= 0;
+  }
+
+  reset() {
+    this.money = INITIAL_MONEY;
+    this.round = 0;
+  }
 }
 
 export { GameModel };

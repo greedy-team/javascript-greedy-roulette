@@ -12,6 +12,7 @@ class GameController {
   bindEvents() {
     this.view.bindBetButton(() => this.handleBet());
     this.view.bindStopButton(() => this.handleStop());
+    this.view.bindRestartButton(() => this.handleRestart());
   }
 
   initializeView() {
@@ -70,10 +71,29 @@ class GameController {
 
     this.view.updateMoney(this.model.getMoney());
     this.view.updateRound(this.model.getRound());
-    this.view.setButtonsDisabled(false);
+
+    if (this.model.isBankrupt()) {
+      this.endGame();
+    } else {
+      this.view.setButtonsDisabled(false);
+    }
   }
 
   handleStop() {
+    this.endGame();
+  }
+
+  endGame() {
+    this.view.showFinalResult(this.model.getMoney(), this.model.getRound());
+    this.view.hideControls();
+    this.view.showRestartButton();
+  }
+
+  handleRestart() {
+    this.model.reset();
+    this.view.reset();
+    this.view.updateMoney(this.model.getMoney());
+    this.view.updateRound(this.model.getRound());
   }
 }
 
