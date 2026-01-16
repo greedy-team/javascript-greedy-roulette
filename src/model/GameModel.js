@@ -45,6 +45,10 @@ class GameModel {
   incrementRound() {
     this.round += 1;
   }
+
+  isValidColor(color) {
+    return VALID_COLORS.includes(color);
+  }
 }
 
 export { GameModel };
