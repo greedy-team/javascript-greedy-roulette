@@ -3,6 +3,10 @@ class GameView {
     this.elements = {
       currentMoney: document.getElementById('current-money'),
       currentRound: document.getElementById('current-round'),
+      colorSelect: document.getElementById('color-select'),
+      betAmount: document.getElementById('bet-amount'),
+      betButton: document.getElementById('bet-button'),
+      stopButton: document.getElementById('stop-button'),
       restartButton: document.getElementById('restart-button'),
       resultBox: document.getElementById('result-box'),
     };
@@ -26,6 +30,31 @@ class GameView {
 
   hideResultBox() {
     this.elements.resultBox.style.display = 'none';
+  }
+
+  getSelectedColor() {
+    return this.elements.colorSelect.value;
+  }
+
+  getBetAmount() {
+    const value = this.elements.betAmount.value;
+    if (!/^\d+$/.test(value)) {
+      return 0;
+    }
+    return parseInt(value, 10);
+  }
+
+  setButtonsDisabled(disabled) {
+    this.elements.betButton.disabled = disabled;
+    this.elements.stopButton.disabled = disabled;
+  }
+
+  bindBetButton(handler) {
+    this.elements.betButton.addEventListener('click', handler);
+  }
+
+  bindStopButton(handler) {
+    this.elements.stopButton.addEventListener('click', handler);
   }
 }
 

@@ -13,6 +13,10 @@ class GameModel {
   getRound() {
     return this.round;
   }
+
+  deductMoney(amount) {
+    this.money -= amount;
+  }
 }
 
 export { GameModel };
