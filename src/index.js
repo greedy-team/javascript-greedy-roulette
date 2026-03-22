@@ -8,7 +8,17 @@ const RestartBtn=document.getElementById("restart-button");
 function PlayBetting(){
     const UserColor=document.getElementById("color-select").value;
     const RouletteColor=GetRouletteColor(); 
-    
+    const BettingMoney=document.getElementById("bet-amount").value;
+
+    console.log(BettingMoney);
+    console.log(UserColor);
+    console.log(RouletteColor);
+    UserAccount-=BettingMoney;
+    if(UserColor===RouletteColor){
+        UserAccount+=SuccessBetting(UserColor,BettingMoney);
+    }else{
+        FailBetting(BettingMoney);
+    }
     
 }
 
@@ -28,4 +38,29 @@ function GetRouletteColor(){
     }
     return Color;
 }
+function CalculateBonusMoney(UserColor,BettingMoney){
+    let BonusRate=0;
+    if(UserColor==="YELLOW"){
+        BonusRate=2;
+    }else if(UserColor==="GREEN"){
+        BonusRate=4;
+    }else if(UserColor==="BLUE"){
+        BonusRate=6;
+    }else if(UserColor==="PURPLE"){
+        BonusRate=11;
+    }else if(UserColor==="RED"){
+        BonusRate=21;
+    }
+    return BettingMoney*BonusRate;
+}
+function SuccessBetting(UserColor,BettingMoney){
+    const BonusMoney=CalculateBonusMoney(UserColor,BettingMoney);
+    alert("베팅 성공! +{"+BonusMoney+"}원");
+
+    return BonusMoney;
+}
+function FailBetting(BettingMoney){
+    alert("베팅 실패! -{"+BettingMoney+"}원");
+}
+BettingBtn.onclick=PlayBetting;
 
