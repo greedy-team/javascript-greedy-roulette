@@ -21,5 +21,8 @@
   "engines": {
     "npm": ">=10.1.0",
     "node": ">=20.0.0"
+  },
+  "compilerOptions": {
+    "checkJs": true
   }
 }
