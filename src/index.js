@@ -93,4 +93,29 @@ class Roulette {
     }
     return "검증 성공";
   }
+
+  // 베팅 실행 메서드
+  // 인증 후 베팅 금액 차감, 버튼 비활성화, 결과 표시, 결과 로딩 메시지 표시
+  startBet(color, amount) {
+    this.validateBet(color, amount);
+    this.balance -= amount;
+    // DOM 업데이트
+    currentMoney.textContent = formatMoney(this.balance);
+    betButton.disabled = true;
+    stopButton.disabled = true;
+    resultBox.style.display = "";
+    resultContent.textContent = "룰렛을 돌리는 중...";
+  }
 }
+
+const roulette = new Roulette();
+
+betButton.addEventListener("click", () => {
+  const color = colorSelect.value;
+  const amount = Number(betAmount.value); // string을 Number로 변환
+  try {
+    roulette.startBet(color, amount);
+  } catch (error) {
+    alert(error.message);
+  }
+});
