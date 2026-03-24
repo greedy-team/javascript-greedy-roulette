@@ -1,14 +1,18 @@
 export default class OutputView {
     constructor() {
         this.currentMoney = document.getElementById('current-money');
+        this.currentRound = document.getElementById('current-round');
         this.betButton = document.getElementById('bet-button');
         this.stopButton = document.getElementById('stop-button');
         this.resultBox = document.getElementById('result-box');
         this.resultContent = document.getElementById('result-content');
+
+        let round = 0;
     }
 
-    updateCurrentMoney(calculatedMoney) {
+    updateCurrentstatus(calculatedMoney, calculatedRound) {
         this.currentMoney.textContent = calculatedMoney;
+        this.round = calculatedRound;
     }
 
     bettingRoulette() {
@@ -21,6 +25,7 @@ export default class OutputView {
             this.betButton.disabled = false;
             this.stopButton.disabled = false;
             this.resultContent.innerText = "결과";
+            this.currentRound.textContent = this.round;
         }, 2000)
     }
 }

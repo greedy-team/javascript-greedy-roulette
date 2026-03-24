@@ -15,12 +15,12 @@ export default class RouletteGame {
         this.InputView.bindBetEvent(this.onBet.bind(this));
     }
 
-    onBet(currentMoney, selectedColor, bettedAmount) {
+    onBet(currentMoney, currentRound, selectedColor, bettedAmount) {
         try {
             this.OutputView.bettingRoulette();
 
             const calculatedMoney = parseInt(currentMoney) - parseInt(bettedAmount);
-            this.OutputView.updateCurrentMoney(calculatedMoney);
+            this.OutputView.updateCurrentstatus(calculatedMoney, ++currentRound);
         } catch (error) {
         }
     }
