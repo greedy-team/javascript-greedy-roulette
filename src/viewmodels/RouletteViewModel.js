@@ -97,7 +97,7 @@ export const viewModel = {
                 resultMessage = `베팅 실패! -${amount.toLocaleString()}원`;
             }
 
-            view.updateResult(`룰렛 결과: <span class="color-chip ${colorClass}"> ${resultColor}</span><br>${resultMessage}`);
+            view.updateResult(`룰렛 결과: ${resultColor}<br>${resultMessage}`);
     },
     
     bankruptCheck(){
