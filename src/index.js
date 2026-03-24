@@ -1,3 +1,3 @@
-import RouletteGame from 'RouletteGame.js';
+import RouletteGame from './RouletteGame.js';
 
 new RouletteGame();
