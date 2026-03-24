@@ -16,8 +16,9 @@ export default class OutputView {
     }
 
     updateCurrentstatus(calculatedMoney, calculatedRound, result) {
+        this.currentMoney.textContent = calculatedMoney;
+
         setTimeout(() => {
-            this.currentMoney.textContent = calculatedMoney;
             this.currentRound.textContent = calculatedRound;
             this.resultContent.innerHTML = result;
 

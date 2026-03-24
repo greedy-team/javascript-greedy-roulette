@@ -31,26 +31,51 @@ export default class RouletteGame {
             throw new Error('베팅 금액은 1 이상의 정수여야 합니다.');
         }
 
+        if (amount > money) {
+            throw new Error('보유 금액을 초과했습니다.');
+        }
+
         return { money, amount };
+    }
+
+    getRouletteColor() {
+        const rate = Math.random();
+
+        if (rate < 0.525) return 'YELLOW';
+        if (rate < 0.775) return 'GREEN';
+        if (rate < 0.925) return 'BLUE';
+        if (rate < 0.975) return 'PURPLE';
+        return 'RED';
     }
 
     onBet(currentMoney, currentRound, selectedColor, bettedAmount) {
         try {
             const { money, amount } = this.validateBet(currentMoney, selectedColor, bettedAmount);
+            const rouletteColor = this.getRouletteColor();
+            const isWin = rouletteColor === selectedColor;
+            const nextRound = currentRound + 1;
+            const nextMoney = isWin ? money + amount : money - amount;
 
             this.OutputView.bettingRoulette();
-            let calculatedMoney;
-            
-            let result;
-            if (this.ViewModel.play(selectedColor, amount)) {
-                result = "베팅 성공! +" + mark(amount) + "원";
-                calculatedMoney = mark(money + amount);
+            let result = `룰렛 결과: ${rouletteColor}<br>`;
+
+            if (isWin) {
+                result += "베팅 성공! +" + mark(amount) + "원";
             } else {
-                result = "베팅 실패! -" + mark(amount) + "원";
-                calculatedMoney = mark(money - amount);
+                result += "베팅 실패! -" + mark(amount) + "원";
             }
 
-            this.OutputView.updateCurrentstatus(calculatedMoney, ++currentRound, result);
+            if (nextMoney <= 0) {
+                result += "<br>게임이 곧 종료됩니다.";
+            }
+
+            this.OutputView.updateCurrentstatus(mark(nextMoney), nextRound, result);
+
+            if (nextMoney <= 0) {
+                setTimeout(() => {
+                    this.onStop(nextMoney, nextRound);
+                }, 4000);
+            }
         } catch (error) {
             this.OutputView.showAlert(error.message || '알 수 없는 오류가 발생했습니다.');
         }
