@@ -114,3 +114,10 @@ $stopButton.addEventListener('click', () => {
   $resultContent.textContent = "게임이 곧 종료됩니다.";
   setTimeout(endGame, 2000);
 });
+
+$restartButton.addEventListener('click', () => {
+  init();
+  $betButton.disabled = false;
+  $stopButton.disabled = false;
+  $resultContent.textContent = "새 게임을 시작합니다!";
+});
