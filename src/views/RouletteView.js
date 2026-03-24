@@ -20,32 +20,35 @@ export const view = {
         this.el.$colorSelect.style.display = 'block';
         this.el.$betButton.style.display = 'block';
         this.el.$stopButton.style.display = 'block';
-        this.el.$betButton.disabled = false;
-        this.el.$stopButton.disabled = false;
+        this.showActiveState();
+
+        this.el.$colorSelect.value = "";
+        this.el.$betAmountInput.value = "";
+        this.el.$resultContent.textContent = "";
     },
 
-    updateMoney(money) { this.el.$currentMoney.textContent = money; },
-    updateRound(round) { this.el.$currentRound.textContent = round; },
+    updateMoney(currentMoney) { this.el.$currentMoney.textContent = currentMoney.toLocaleString(); },
+    updateRound(currentRound) { this.el.$currentRound.textContent = currentRound; },
     updateResult(text) { this.el.$resultContent.innerHTML = text; },
 
     showWaitingState() {
-        this.el.$betButton.style.display = 'none';
-        this.el.$stopButton.style.display = 'none';
+        this.el.$betButton.disabled = true;
+        this.el.$stopButton.disabled = true;
         this.el.$resultBox.style.display = 'block';
         this.updateResult('룰렛을 돌리는 중...');
     },
 
     showActiveState() {
-        this.el.$betButton.style.display = 'block';
-        this.el.$stopButton.style.display = 'block';
+        this.el.$betButton.disabled = false;
+        this.el.$stopButton.disabled = false;
     },
 
-    showEndGame(finalMoney, totalRounds) {
+    showEndGame(currentMoney, currentRounds) {
         this.el.$gameControls.style.display = 'none';
         this.el.$colorSelect.style.display = 'none';
         this.el.$betButton.style.display = 'none';
         this.el.$stopButton.style.display = 'none';
-        this.updateResult(`게임 종료 <br> 최종 자금: ${finalMoney}원 <br> 플레이한 라운드: ${totalRounds}`);
+        this.updateResult(`게임 종료<br>최종 자금: ${currentMoney.toLocaleString()}원<br>플레이한 라운드: ${currentRounds}`);
         this.el.$restartButton.style.display = 'block';
     }
 };
