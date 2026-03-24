@@ -46,16 +46,19 @@ export default class RouletteGame {
         try {
             const { money, amount } = this.validateBet(currentMoney, selectedColor, bettedAmount);
             const rouletteColor = this.ViewModel.getRouletteColor();
+            const payoutRate = this.ViewModel.getPayoutRate(selectedColor);
             const isWin = rouletteColor === selectedColor;
             const nextRound = currentRound + 1;
-            const nextMoney = isWin ? money + amount : money - amount;
+            const deductedMoney = money - amount;
+            const payoutAmount = amount * (payoutRate + 1);
+            const nextMoney = isWin ? deductedMoney + payoutAmount : deductedMoney;
 
-            this.OutputView.bettingRoulette();
+            this.OutputView.bettingRoulette(mark(deductedMoney));
             const colorClass = rouletteColor.toLowerCase();
             let result = `룰렛 결과: <span class="color-chip ${colorClass}">${rouletteColor}</span><br>`;
 
             if (isWin) {
-                result += `<span class="win">베팅 성공! +${mark(amount)}원</span>`;
+                result += `<span class="win">베팅 성공! +${mark(payoutAmount)}원</span>`;
             } else {
                 result += `<span class="lose">베팅 실패! -${mark(amount)}원</span>`;
             }
@@ -69,7 +72,7 @@ export default class RouletteGame {
             if (nextMoney <= 0) {
                 setTimeout(() => {
                     this.onStop(nextMoney, nextRound);
-                }, 4000);
+                }, 2000);
             }
         } catch (error) {
             this.OutputView.showAlert(error.message || '알 수 없는 오류가 발생했습니다.');

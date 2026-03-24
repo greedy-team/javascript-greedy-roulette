@@ -2,16 +2,26 @@ export default class ViewModel {
     constructor() {
     }
 
+    getPayoutRate(color) {
+        const payoutRate = {
+            YELLOW: 1,
+            GREEN: 3,
+            BLUE: 5,
+            PURPLE: 10,
+            RED: 20
+        };
+
+        return payoutRate[color];
+    }
+
     getRouletteColor() {
-        const weightedColors = [
-            ...Array(21).fill('YELLOW'),
-            ...Array(10).fill('GREEN'),
-            ...Array(6).fill('BLUE'),
-            ...Array(2).fill('PURPLE'),
-            ...Array(1).fill('RED')
-        ];
-        const randomIndex = Math.floor(Math.random() * weightedColors.length);
-        return weightedColors[randomIndex];
+        const rate = Math.random();
+
+        if (rate < 0.525) return 'YELLOW';
+        if (rate < 0.775) return 'GREEN';
+        if (rate < 0.925) return 'BLUE';
+        if (rate < 0.975) return 'PURPLE';
+        return 'RED';
     }
 
     play(color) {

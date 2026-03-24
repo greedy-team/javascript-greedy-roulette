@@ -16,9 +16,8 @@ export default class OutputView {
     }
 
     updateCurrentstatus(calculatedMoney, calculatedRound, result) {
-        this.currentMoney.textContent = calculatedMoney;
-
         setTimeout(() => {
+            this.currentMoney.textContent = calculatedMoney;
             this.currentRound.textContent = calculatedRound;
             this.resultContent.innerHTML = result;
 
@@ -27,9 +26,12 @@ export default class OutputView {
         }, 2000);
     }
 
-    bettingRoulette() {
+    bettingRoulette(deductedMoney) {
         this.betButton.disabled = true;
         this.stopButton.disabled = true;
+        if (deductedMoney !== undefined) {
+            this.currentMoney.textContent = deductedMoney;
+        }
         this.resultBox.style.display = 'block';
         this.resultContent.innerText = '룰렛을 돌리는 중...';
     }
