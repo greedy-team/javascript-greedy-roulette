@@ -2,6 +2,7 @@ export default getRouletteColor
 
 function getRouletteColor() {
     const ColorNum = Math.floor(Math.random() * 40) + 1;
+    console.log(ColorNum);
     let Color;
     if (ColorNum <= 21) {
         Color = "YELLOW";
