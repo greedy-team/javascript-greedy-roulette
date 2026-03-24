@@ -32,41 +32,14 @@ export const viewModel = {
             return; 
         }
 
+        const amount = Number(getAmount);
         model.data.currentMoney -= amount;
         view.updateMoney(model.data.currentMoney); 
 
         view.showWaitingState();
 
         setTimeout(() => {
-            model.data.currentRound += 1;
-            view.updateRound(model.data.currentRound);
-
-            const randomNumber = Math.floor(Math.random() * 40) + 1;
-            const resultColor = model.getResultColor(randomNumber);
-            let resultMessage = "";
-
-            if (selectedColor === resultColor) {
-                const multiplier = model.getMultiplier(resultColor);
-                const winAmount = Math.floor(amount + (amount * multiplier));
-                
-                model.data.currentMoney += winAmount; 
-                view.updateMoney(model.data.currentMoney);
-                resultMessage = `베팅 성공! +${winAmount}원`;
-            } else {
-                resultMessage = `베팅 실패! -${amount}원`;
-            }
-
-            view.updateResult(`룰렛 결과: ${resultColor} <br> ${resultMessage}`);
-
-            if (model.data.currentMoney <= 0) {
-                view.el.$resultContent.innerHTML += `<br> 자금이 0원이 되었습니다.`;
-                view.el.$betButton.disabled = true;
-                view.el.$stopButton.disabled = true;
-                setTimeout(() => view.showEndGame(model.data.currentMoney, model.data.currentRound), 2000);
-                return;
-            }
-
-            view.showActiveState();
+            this.RouletteResult(selectedColor, amount);
         }, 2000);
     },
 
@@ -82,5 +55,49 @@ export const viewModel = {
             return false;
         }
         return true;
-}
+    },
+
+    RouletteResult(selectedColor, amount) {
+        model.data.currentRound += 1;
+        view.updateRound(model.data.currentRound);
+
+        const randomNumber = Math.floor(Math.random() * 40) + 1;
+        const resultColor = model.getResultColor(randomNumber);
+        
+        this.judgeResult(selectedColor, resultColor, amount);
+        
+        if(this.bankruptCheck()){
+            return;
+        }
+        view.showActiveState();
+    },
+
+    judgeResult(selectedColor, resultColor, amount){
+        let resultMessage = "";
+
+            if (selectedColor === resultColor) {
+                const multiplier = model.getMultiplier(resultColor);
+                const winAmount = Math.floor(amount + (amount * multiplier));
+                
+                model.data.currentMoney += winAmount; 
+                view.updateMoney(model.data.currentMoney);
+                resultMessage = `베팅 성공! +${winAmount}원`;
+            } else {
+                resultMessage = `베팅 실패! -${amount}원`;
+            }
+
+            view.updateResult(`룰렛 결과: ${resultColor} <br> ${resultMessage}`);
+    },
+
+    
+    bankruptCheck(){
+        if (model.data.currentMoney <= 0) {
+            view.el.$resultContent.innerHTML += `<br> 자금이 0원이 되었습니다.`;
+            view.el.$betButton.disabled = true;
+            view.el.$stopButton.disabled = true;
+            setTimeout(() => view.showEndGame(model.data.currentMoney, model.data.currentRound), 2000);
+            return true;
+        }
+        return false;
+    }
 };
