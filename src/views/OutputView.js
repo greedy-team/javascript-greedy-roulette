@@ -1,5 +1,6 @@
 export default class OutputView {
     constructor() {
+        this.resultColorClasses = ['YELLOW', 'GREEN', 'BLUE', 'PURPLE', 'RED'];
         this.currentMoney = document.getElementById('current-money');
         this.currentRound = document.getElementById('current-round');
         this.betButton = document.getElementById('bet-button');
@@ -13,6 +14,13 @@ export default class OutputView {
 
         this.currentMoney.textContent = "10,000";
 
+    }
+
+    setResultColorClass(color) {
+        this.resultContent.classList.remove(...this.resultColorClasses);
+        if (color) {
+            this.resultContent.classList.add(color);
+        }
     }
 
     updateCurrentstatus(calculatedMoney, calculatedRound, result) {
@@ -29,6 +37,7 @@ export default class OutputView {
     bettingRoulette(deductedMoney) {
         this.betButton.disabled = true;
         this.stopButton.disabled = true;
+        this.setResultColorClass('');
         if (deductedMoney !== undefined) {
             this.currentMoney.textContent = deductedMoney;
         }
@@ -52,6 +61,7 @@ export default class OutputView {
         this.currentRound.textContent = '0';
         this.colorSelect.value = '';
         this.betAmount.value = '';
+        this.setResultColorClass('');
 
         this.betButton.disabled = false;
         this.stopButton.disabled = false;

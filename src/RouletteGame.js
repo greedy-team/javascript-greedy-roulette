@@ -68,11 +68,12 @@ export default class RouletteGame {
             }
 
             this.OutputView.updateCurrentstatus(mark(nextMoney), nextRound, result);
+            this.OutputView.setResultColorClass(rouletteColor);
 
             if (nextMoney <= 0) {
                 setTimeout(() => {
                     this.onStop(nextMoney, nextRound);
-                }, 2000);
+                }, 4000);
             }
         } catch (error) {
             this.OutputView.showAlert(error.message || '알 수 없는 오류가 발생했습니다.');
