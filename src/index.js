@@ -118,6 +118,16 @@ class Roulette {
     resultContent.textContent = "룰렛을 돌리는 중...";
     setTimeout(() => {
       this.rouletteResult();
+      // 파산 시 게임 종료 처리
+      if (this.balance <= 0) {
+        resultContent.innerHTML += "<br>게임이 곧 종료됩니다.";
+        betButton.disabled = true;
+        stopButton.disabled = true;
+        setTimeout(() => {
+          this.endGame();
+        }, 2000);
+        return;
+      }
       stopButton.disabled = false;
       betButton.disabled = false;
     }, 2000); // 2초 후 룰렛 결과 표시
@@ -142,16 +152,36 @@ class Roulette {
   checkWinner(color, result) {
     return color === result;
   }
+
+  endGame() {
+    gameControls.style.display = "none";
+    resultBox.style.display = "";
+    resultContent.innerHTML = `게임 종료<br>최종 자금: ${formatMoney(this.balance)}원<br>플레이한 라운드: ${this.round}`;
+    restartButton.style.display = "";
+  }
 }
 
 const roulette = new Roulette();
 
+// 베팅하기 버튼
 betButton.addEventListener("click", () => {
   const color = colorSelect.value;
-  const amount = Number(betAmount.value); // string을 Number로 변환
+  const amount = Number(betAmount.value);
   try {
     roulette.startBet(color, amount);
   } catch (error) {
     alert(error.message);
   }
+});
+
+// 게임 중단 버튼
+stopButton.addEventListener("click", () => {
+  roulette.endGame();
+});
+
+// 다시 시작하기 버튼
+restartButton.addEventListener("click", () => {
+  roulette.balance = INITIAL_BALANCE;
+  roulette.round = 0;
+  initRoulette();
 });
