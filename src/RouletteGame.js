@@ -27,6 +27,10 @@ export default class RouletteGame {
             throw new Error('색상을 선택해주세요.');
         }
 
+        if (!/^\d+$/.test(amountText)) {
+            throw new Error('베팅 금액은 1 이상의 정수여야 합니다.');
+        }
+
         if (!Number.isInteger(amount) || amount <= 0) {
             throw new Error('베팅 금액은 1 이상의 정수여야 합니다.');
         }
@@ -38,31 +42,22 @@ export default class RouletteGame {
         return { money, amount };
     }
 
-    getRouletteColor() {
-        const rate = Math.random();
-
-        if (rate < 0.525) return 'YELLOW';
-        if (rate < 0.775) return 'GREEN';
-        if (rate < 0.925) return 'BLUE';
-        if (rate < 0.975) return 'PURPLE';
-        return 'RED';
-    }
-
     onBet(currentMoney, currentRound, selectedColor, bettedAmount) {
         try {
             const { money, amount } = this.validateBet(currentMoney, selectedColor, bettedAmount);
-            const rouletteColor = this.getRouletteColor();
+            const rouletteColor = this.ViewModel.getRouletteColor();
             const isWin = rouletteColor === selectedColor;
             const nextRound = currentRound + 1;
             const nextMoney = isWin ? money + amount : money - amount;
 
             this.OutputView.bettingRoulette();
-            let result = `룰렛 결과: ${rouletteColor}<br>`;
+            const colorClass = rouletteColor.toLowerCase();
+            let result = `룰렛 결과: <span class="color-chip ${colorClass}">${rouletteColor}</span><br>`;
 
             if (isWin) {
-                result += "베팅 성공! +" + mark(amount) + "원";
+                result += `<span class="win">베팅 성공! +${mark(amount)}원</span>`;
             } else {
-                result += "베팅 실패! -" + mark(amount) + "원";
+                result += `<span class="lose">베팅 실패! -${mark(amount)}원</span>`;
             }
 
             if (nextMoney <= 0) {
