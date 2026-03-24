@@ -52,14 +52,18 @@ class Roulette {
 
   // 룰렛 결과에 따른 배당금 계산 메서드
   calculatePayout(betAmount, result) {
-    return betAmount * rouletteBets[result];
+    // 선택한 색상과 rouletteSpin에서 나온 랜덤 룰렛 결과가 일치하는지 확인
+    if (this.checkWinner(colorSelect.value, result)) {
+      return betAmount * rouletteBets[result];
+    }
+    return 0;
   }
   //    - 40칸: YELLOW(21), GREEN(10), BLUE(6), PURPLE(2), RED(1)
   //    - 각 칸 동일 확률(2.5%)로 선택
   //    룰렛 칸수 40개로 고정
 
   // 룰렛 시작 메서드
-  rouletteStart() {
+  rouletteSpin() {
     const result = this.randomResult();
     if (result < 21) {
       return "YELLOW";
@@ -74,6 +78,11 @@ class Roulette {
     }
   }
 
+  //라운드 증가 메서드
+  addRound() {
+    this.round += 1;
+    currentRound.textContent = String(this.round);
+  }
   // 랜덤 값 생성 메서드
   randomResult() {
     // 0부터 39까지의 랜덤 정수 생성
@@ -101,10 +110,31 @@ class Roulette {
     this.balance -= amount;
     // DOM 업데이트
     currentMoney.textContent = formatMoney(this.balance);
+
+    // 베팅 후 버튼 비활성화
     betButton.disabled = true;
     stopButton.disabled = true;
     resultBox.style.display = "";
     resultContent.textContent = "룰렛을 돌리는 중...";
+    setTimeout(() => {
+      this.rouletteResult();
+      stopButton.disabled = false;
+      betButton.disabled = false;
+    }, 2000); // 2초 후 룰렛 결과 표시
+  }
+
+  rouletteResult() {
+    // 이미 startBet 에서 검증된 값만 들어오기 때문에 추가 검증 없이 바로 결과 계산
+    const result = this.rouletteSpin();
+    const payout = this.calculatePayout(Number(betAmount.value), result);
+    this.balance += payout;
+    this.addRound();
+    currentMoney.textContent = formatMoney(this.balance);
+    resultContent.innerHTML = `룰렛 결과: <span class="${result.toLowerCase()}">${result}</span><br>배당금: ${formatMoney(payout)}원`;
+  }
+
+  checkWinner(color, result) {
+    return color === result;
   }
 }
 
