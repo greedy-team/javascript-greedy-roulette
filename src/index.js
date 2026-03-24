@@ -61,7 +61,26 @@ $betButton.addEventListener('click', () => {
     else if (randomNumber <= 39) resultColor = "PURPLE";
     else resultColor = "RED";
 
-    $resultContent.innerHTML = `룰렛 결과: ${resultColor}`;
+    let resultMessage = "";
+
+    if (selectedColor === resultColor) {
+      let multiplier = 0;
+      if (resultColor === "YELLOW") multiplier = 1;
+      else if (resultColor === "GREEN") multiplier = 3.0;
+      else if (resultColor === "BLUE") multiplier = 5.0;
+      else if (resultColor === "PURPLE") multiplier = 10.0;
+      else if (resultColor === "RED") multiplier = 20.0;
+
+      const winAmount = Math.floor(amount + (amount * multiplier));
+      const currentMoneyValue = Number($currentMoney.textContent);
+      $currentMoney.textContent = currentMoneyValue + winAmount;
+
+      resultMessage = `🎉 베팅 성공! +${winAmount}원`;
+    } else {
+      resultMessage = `💀 베팅 실패! -${amount}원`;
+    }
+
+    $resultContent.innerHTML = `룰렛 결과: ${resultColor} <br> ${resultMessage}`;
 
     $betButton.style.display = 'block';
     $stopButton.style.display = 'block';
