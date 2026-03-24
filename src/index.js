@@ -23,3 +23,35 @@ const init = () => {
 };
 
 init();
+
+function endGame(){
+  $gameControls.style.display = 'none';
+  $colorSelect.style.display='none';
+  $betButton.style.display = 'none';
+  $stopButton.style.display = 'none';
+
+  const finalMoney = $currentMoney.textContent;
+  const totalRounds = $currentRound.textContent;
+
+  $restartButton.style.display = 'block';
+  $resultContent.innerHTML=`게임 종료 최종 자금: ${finalMoney}원 플레이한 라운드: ${totalRounds}`;
+
+  $restartButton.style.display='block';
+}
+
+$betButton.addEventListener('click', () => {
+  const selectedColor = $colorSelect.value;
+  const getAmount = $betAmountInput.value;
+
+  if (selectedColor===""){
+    alert("색상을 선택해주세요!");
+    return;
+  }
+  const amount=Number(getAmount);
+  if(isNaN(amount) || amount<=0){
+    alert("베팅 금액을 정확히 입력해주세요!");
+    
+  }
+  
+});
+
