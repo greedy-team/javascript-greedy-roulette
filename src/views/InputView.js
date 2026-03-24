@@ -2,6 +2,7 @@ export default class InputView {
     constructor() {
         this.colorSelect = document.getElementById('color-select');
         this.betButton = document.getElementById('bet-button');
+        this.stopButton = document.getElementById('stop-button');
         this.betAmount = document.getElementById('bet-amount');
         this.currentRound = document.getElementById('current-round');
         this.currentMoney = document.getElementById('current-money');
@@ -19,4 +20,12 @@ export default class InputView {
             handler(currentMoney, currentRound, selectedColor, bettedAmount);
         }
     );}
+
+    bindStopEvent(handler) {
+        this.stopButton.addEventListener('click', (event) => {
+            event.preventDefault();
+
+            handler(this.currentMoney.textContent, parseInt(this.currentRound.textContent));
+        })
+    }
 }

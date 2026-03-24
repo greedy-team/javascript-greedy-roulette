@@ -6,6 +6,8 @@ export default class OutputView {
         this.stopButton = document.getElementById('stop-button');
         this.resultBox = document.getElementById('result-box');
         this.resultContent = document.getElementById('result-content');
+        this.restartButton = document.getElementById('restart-button');
+
     }
 
     updateCurrentstatus(calculatedMoney, calculatedRound, result) {
@@ -24,5 +26,12 @@ export default class OutputView {
         this.stopButton.disabled = true;
         this.resultBox.style.display = 'block';
         this.resultContent.innerText = "룰렛을 돌리는 중";
+    }
+
+    end(result) {
+        document.getElementById("game-controls").style.display = "none";
+        this.restartButton.style.display = "block";
+        this.resultContent.innerHTML = result;
+        this.resultBox.style.display = "block";
     }
 }

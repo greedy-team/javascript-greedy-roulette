@@ -13,6 +13,7 @@ export default class RouletteGame {
     }
 
     init() {
+        this.InputView.bindStopEvent(this.onStop.bind(this));
         this.InputView.bindBetEvent(this.onBet.bind(this));
     }
 
@@ -32,6 +33,12 @@ export default class RouletteGame {
 
             this.OutputView.updateCurrentstatus(calculatedMoney, ++currentRound, result);
         } catch (error) {
+            console.log(error);
         }
+    }
+
+    onStop(currentMoney, currentRound) {
+        let result = "<h4>게임 종료</h4>최종 자금: " + mark(currentMoney) + "원<br>" + "플레이한 라운드: " + currentRound;
+        this.OutputView.end(result);
     }
 }
