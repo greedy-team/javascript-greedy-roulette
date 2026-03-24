@@ -47,4 +47,23 @@ $betButton.addEventListener('click', () => {
   $stopButton.style.display = 'none';
   $resultBox.style.display = 'block';
   $resultContent.textContent = '룰렛을 돌리는 중...';
+
+  setTimeout(() => {
+    const currentRound = Number($currentRound.textContent);
+    $currentRound.textContent = currentRound + 1;
+
+    const randomNumber = Math.floor(Math.random() * 40) + 1;
+    let resultColor = "";
+
+    if (randomNumber <= 21) resultColor = "YELLOW";
+    else if (randomNumber <= 31) resultColor = "GREEN";
+    else if (randomNumber <= 37) resultColor = "BLUE";
+    else if (randomNumber <= 39) resultColor = "PURPLE";
+    else resultColor = "RED";
+
+    $resultContent.innerHTML = `룰렛 결과: ${resultColor}`;
+
+    $betButton.style.display = 'block';
+    $stopButton.style.display = 'block';
+  }, 2000);
 });
