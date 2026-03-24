@@ -79,4 +79,18 @@ class Roulette {
     // 0부터 39까지의 랜덤 정수 생성
     return Math.floor(Math.random() * NUMBER_OF_SLOTS);
   }
+
+  // 베팅 입력 검증
+  validateBet(color, amount) {
+    if (!color) {
+      throw new Error("색상을 선택해주세요.");
+    }
+    if (!/^[1-9]\d*$/.test(String(amount))) {
+      throw new Error("베팅 금액은 1원 이상의 정수여야 합니다.");
+    }
+    if (amount > this.balance) {
+      throw new Error("보유 금액을 초과할 수 없습니다.");
+    }
+    return "검증 성공";
+  }
 }
