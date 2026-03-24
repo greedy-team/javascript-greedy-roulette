@@ -28,15 +28,8 @@ export const viewModel = {
         const selectedColor = view.el.$colorSelect.value;
         const getAmount = view.el.$betAmountInput.value; 
 
-        if (selectedColor === "") {
-            alert("색상을 선택해주세요!");
-            return;
-        }
-
-        const amount = Number(getAmount); 
-        if (isNaN(amount) || amount <= 0) {
-            alert("베팅 금액을 정확히 입력해주세요!");
-            return;
+        if (!this.isValid(selectedColor, getAmount)) {
+            return; 
         }
 
         model.data.currentMoney -= amount;
@@ -75,5 +68,19 @@ export const viewModel = {
 
             view.showActiveState();
         }, 2000);
-    }
+    },
+
+    isValid(selectedColor, getAmount){
+        if (selectedColor === "") {
+            alert("색상을 선택해주세요!");
+            return false;
+        }
+
+        const amount = Number(getAmount); 
+        if (isNaN(amount) || amount <= 0) {
+            alert("베팅 금액을 정확히 입력해주세요!");
+            return false;
+        }
+        return true;
+}
 };
