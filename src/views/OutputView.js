@@ -28,6 +28,10 @@ export default class OutputView {
         this.resultContent.innerText = "룰렛을 돌리는 중";
     }
 
+    showAlert(message) {
+        alert(message);
+    }
+
     end(result) {
         document.getElementById("game-controls").style.display = "none";
         this.restartButton.style.display = "block";
