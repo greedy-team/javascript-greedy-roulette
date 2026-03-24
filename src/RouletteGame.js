@@ -17,9 +17,10 @@ export default class RouletteGame {
 
     onBet(currentMoney, selectedColor, bettedAmount) {
         try {
+            this.OutputView.bettingRoulette();
+
             const calculatedMoney = parseInt(currentMoney) - parseInt(bettedAmount);
             this.OutputView.updateCurrentMoney(calculatedMoney);
-            
         } catch (error) {
         }
     }
