@@ -24,6 +24,19 @@ const init = () => {
 
 init();
 
+function endGame() {
+  $gameControls.style.display = 'none';
+  $colorSelect.style.display = 'none';
+  $betButton.style.display = 'none';
+  $stopButton.style.display = 'none';
+
+  const finalMoney = $currentMoney.textContent;
+  const totalRounds = $currentRound.textContent;
+
+  $resultContent.innerHTML = `게임 종료 <br> 최종 자금: ${finalMoney}원 <br> 플레이한 라운드: ${totalRounds}`;
+  $restartButton.style.display = 'block';
+}
+
 $betButton.addEventListener('click', () => {
   const selectedColor = $colorSelect.value;
   const getAmount = $betAmountInput.value;
@@ -82,7 +95,22 @@ $betButton.addEventListener('click', () => {
 
     $resultContent.innerHTML = `룰렛 결과: ${resultColor} <br> ${resultMessage}`;
 
+    const finalBalance = Number($currentMoney.textContent);
+    if (finalBalance <= 0) {
+      $resultContent.innerHTML += `<br> 자금이 0원이 되었습니다.`;
+      $betButton.disabled = true;
+      $stopButton.disabled = true;
+      setTimeout(endGame, 2000);
+      return;
+    }
+
     $betButton.style.display = 'block';
     $stopButton.style.display = 'block';
   }, 2000);
+});
+
+$stopButton.addEventListener('click', () => {
+  $resultBox.style.display = 'block';
+  $resultContent.textContent = "게임이 곧 종료됩니다.";
+  setTimeout(endGame, 2000);
 });
