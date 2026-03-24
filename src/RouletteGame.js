@@ -1,6 +1,7 @@
 import InputView from './views/InputView.js'
 import OutputView from './views/OutputView.js'
 import ViewModel from './ViewModel.js';
+import { mark } from './utils/mark.js';
 
 export default class RouletteGame {
     constructor() {
@@ -18,9 +19,18 @@ export default class RouletteGame {
     onBet(currentMoney, currentRound, selectedColor, bettedAmount) {
         try {
             this.OutputView.bettingRoulette();
+            let calculatedMoney;
+            
+            let result;
+            if (this.ViewModel.play(selectedColor, bettedAmount)) {
+                result = "베팅 성공! +" + mark(bettedAmount) + "원";
+                calculatedMoney = mark(parseInt(currentMoney) + parseInt(bettedAmount));
+            } else {
+                result = "베팅 실패! -" + mark(bettedAmount) + "원";
+                calculatedMoney = mark(parseInt(currentMoney) - parseInt(bettedAmount));
+            }
 
-            const calculatedMoney = parseInt(currentMoney) - parseInt(bettedAmount);
-            this.OutputView.updateCurrentstatus(calculatedMoney, ++currentRound);
+            this.OutputView.updateCurrentstatus(calculatedMoney, ++currentRound, result);
         } catch (error) {
         }
     }

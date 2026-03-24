@@ -6,13 +6,17 @@ export default class OutputView {
         this.stopButton = document.getElementById('stop-button');
         this.resultBox = document.getElementById('result-box');
         this.resultContent = document.getElementById('result-content');
-
-        let round = 0;
     }
 
-    updateCurrentstatus(calculatedMoney, calculatedRound) {
-        this.currentMoney.textContent = calculatedMoney;
-        this.round = calculatedRound;
+    updateCurrentstatus(calculatedMoney, calculatedRound, result) {
+        setTimeout(() => {
+            this.currentMoney.textContent = calculatedMoney;
+            this.currentRound.textContent = calculatedRound;
+            this.resultContent.innerHTML = result;
+
+            this.betButton.disabled = false;
+            this.stopButton.disabled = false;
+        }, 2000);
     }
 
     bettingRoulette() {
@@ -20,12 +24,5 @@ export default class OutputView {
         this.stopButton.disabled = true;
         this.resultBox.style.display = 'block';
         this.resultContent.innerText = "룰렛을 돌리는 중";
-
-        setTimeout(() => {
-            this.betButton.disabled = false;
-            this.stopButton.disabled = false;
-            this.resultContent.innerText = "결과";
-            this.currentRound.textContent = this.round;
-        }, 2000)
     }
 }
