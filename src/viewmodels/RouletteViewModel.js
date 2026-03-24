@@ -7,6 +7,7 @@ export const viewModel = {
         view.init();
         view.updateMoney(model.data.currentMoney);
         view.updateRound(model.data.currentRound);
+        view.updateResult("");
     },
 
     setupGameEventListeners() {
@@ -50,8 +51,18 @@ export const viewModel = {
         }
 
         const amount = Number(getAmount); 
-        if (isNaN(amount) || amount <= 0) {
+        if (isNaN(amount) || !/^[0-9]+$/.test(getAmount)) {
             alert("베팅 금액을 정확히 입력해주세요!");
+            return false;
+        }
+
+        if (amount <= 0) {
+            alert("베팅 금액을 정확히 입력해주세요!");
+            return false;
+        }
+
+        if(amount>model.data.currentMoney){
+            alert("보유 금액을 초과하여 베팅할 수 없습니다!")
             return false;
         }
         return true;
@@ -81,18 +92,17 @@ export const viewModel = {
                 
                 model.data.currentMoney += winAmount; 
                 view.updateMoney(model.data.currentMoney);
-                resultMessage = `베팅 성공! +${winAmount}원`;
+                resultMessage = `베팅 성공! +${winAmount.toLocaleString()}원`;
             } else {
-                resultMessage = `베팅 실패! -${amount}원`;
+                resultMessage = `베팅 실패! -${amount.toLocaleString()}원`;
             }
 
-            view.updateResult(`룰렛 결과: ${resultColor} <br> ${resultMessage}`);
+            view.updateResult(`룰렛 결과: <span class="color-chip ${colorClass}"> ${resultColor}</span><br>${resultMessage}`);
     },
-
     
     bankruptCheck(){
         if (model.data.currentMoney <= 0) {
-            view.el.$resultContent.innerHTML += `<br> 자금이 0원이 되었습니다.`;
+            view.el.$resultContent.innerHTML += `<br>게임이 곧 종료됩니다.`;
             view.el.$betButton.disabled = true;
             view.el.$stopButton.disabled = true;
             setTimeout(() => view.showEndGame(model.data.currentMoney, model.data.currentRound), 2000);
