@@ -90,23 +90,22 @@ class Roulette {
   }
 
   // 베팅 입력 검증
-  validateBet(color, amount) {
+  validateBet(color) {
     if (!color) {
       throw new Error("색상을 선택해주세요.");
     }
-    if (!/^[1-9]\d*$/.test(String(amount))) {
-      throw new Error("베팅 금액은 1원 이상의 정수여야 합니다.");
+    if (!/^[1-9]\d*$/.test(betAmount.value)) {
+      // 정규식은 문자열로만 비교
+      throw new Error("베팅 금액은 양의 정수여야 합니다.");
     }
-    if (amount > this.balance) {
+    if (Number(betAmount.value) > this.balance) {
       throw new Error("보유 금액을 초과할 수 없습니다.");
     }
-    return "검증 성공";
   }
 
   // 베팅 실행 메서드
-  // 인증 후 베팅 금액 차감, 버튼 비활성화, 결과 표시, 결과 로딩 메시지 표시
+  // 베팅 금액 차감, 버튼 비활성화, 결과 표시, 결과 로딩 메시지 표시
   startBet(color, amount) {
-    this.validateBet(color, amount);
     this.balance -= amount;
     // DOM 업데이트
     currentMoney.textContent = formatMoney(this.balance);
@@ -146,7 +145,9 @@ class Roulette {
     const message = isWin
       ? `베팅 성공! +${formatMoney(payout)}원`
       : `베팅 실패! -${formatMoney(Number(betAmount.value))}원`;
-    resultContent.innerHTML = `룰렛 결과: <span class="${result.toLowerCase()}">${result}</span><br>${message}`;
+    resultContent.innerHTML =
+      `룰렛 결과: <span class="${result.toLowerCase()}">${result}</span>` +
+      `<br>${message}`;
   }
 
   checkWinner(color, result) {
@@ -166,9 +167,10 @@ const roulette = new Roulette();
 // 베팅하기 버튼
 betButton.addEventListener("click", () => {
   const color = colorSelect.value;
-  const amount = Number(betAmount.value);
   try {
-    roulette.startBet(color, amount);
+    // 베팅 입력 검증
+    roulette.validateBet(color);
+    roulette.startBet(color, Number(betAmount.value));
   } catch (error) {
     alert(error.message);
   }
