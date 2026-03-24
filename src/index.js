@@ -1,6 +1,9 @@
 // 룰렛 칸수 상수
 const NUMBER_OF_SLOTS = 40;
 
+// 초기 자금 상수
+const INITIAL_BALANCE = 10000;
+
 // 배당: YELLOW x1, GREEN x3, BLUE x5, PURPLE x10, RED x20
 const rouletteBets = {
   YELLOW: 1,
@@ -10,7 +13,43 @@ const rouletteBets = {
   RED: 20,
 };
 
+// DOM 요소
+const currentMoney = document.querySelector("#current-money");
+const currentRound = document.querySelector("#current-round");
+const colorSelect = document.querySelector("#color-select");
+const betAmount = document.querySelector("#bet-amount");
+const betButton = document.querySelector("#bet-button");
+const stopButton = document.querySelector("#stop-button");
+const restartButton = document.querySelector("#restart-button");
+const gameControls = document.querySelector("#game-controls");
+const resultBox = document.querySelector("#result-box");
+const resultContent = document.querySelector("#result-content");
+
+function formatMoney(amount) {
+  // 숫자 3자리마다 콤마 추가하는 포멧함수
+  return amount.toLocaleString();
+}
+
+function initRoulette() {
+  currentMoney.textContent = formatMoney(INITIAL_BALANCE); // 초기 자금 표시
+  currentRound.textContent = "0"; // 초기 라운드 표시
+  colorSelect.value = ""; // 초기 색상 선택값 초기화
+  betAmount.value = ""; // 초기 베팅 금액 입력값 초기화
+  betButton.disabled = false; // 베팅 버튼 활성화
+  stopButton.disabled = false; // 정지 버튼 활성화
+  gameControls.style.display = ""; // 게임 컨트롤 표시
+  resultBox.style.display = "none"; // 결과 박스 숨김
+  restartButton.style.display = "none"; // 다시 시작 버튼 숨김
+}
+
+initRoulette();
+
 class Roulette {
+  constructor() {
+    this.balance = INITIAL_BALANCE;
+    this.round = 0;
+  }
+
   // 룰렛 결과에 따른 배당금 계산 메서드
   calculatePayout(betAmount, result) {
     return betAmount * rouletteBets[result];
