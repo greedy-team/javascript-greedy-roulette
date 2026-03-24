@@ -15,6 +15,7 @@ export default class RouletteGame {
     init() {
         this.InputView.bindStopEvent(this.onStop.bind(this));
         this.InputView.bindBetEvent(this.onBet.bind(this));
+        this.InputView.bindRestartEvent(this.onRestart.bind(this));
     }
 
     validateBet(currentMoney, selectedColor, bettedAmount) {
@@ -28,10 +29,6 @@ export default class RouletteGame {
 
         if (!Number.isInteger(amount) || amount <= 0) {
             throw new Error('베팅 금액은 1 이상의 정수여야 합니다.');
-        }
-
-        if (amount > money) {
-            throw new Error('보유 금액을 초과했습니다.');
         }
 
         return { money, amount };
@@ -55,12 +52,16 @@ export default class RouletteGame {
 
             this.OutputView.updateCurrentstatus(calculatedMoney, ++currentRound, result);
         } catch (error) {
-            console.log(error);
+            this.OutputView.showAlert(error.message || '알 수 없는 오류가 발생했습니다.');
         }
     }
 
     onStop(currentMoney, currentRound) {
         let result = "<h4>게임 종료</h4>최종 자금: " + mark(currentMoney) + "원<br>" + "플레이한 라운드: " + currentRound;
         this.OutputView.end(result);
+    }
+
+    onRestart() {
+        this.OutputView.restart();
     }
 }

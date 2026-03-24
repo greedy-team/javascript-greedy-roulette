@@ -4,9 +4,14 @@ export default class OutputView {
         this.currentRound = document.getElementById('current-round');
         this.betButton = document.getElementById('bet-button');
         this.stopButton = document.getElementById('stop-button');
+        this.gameControls = document.getElementById('game-controls');
         this.resultBox = document.getElementById('result-box');
         this.resultContent = document.getElementById('result-content');
         this.restartButton = document.getElementById('restart-button');
+        this.colorSelect = document.getElementById('color-select');
+        this.betAmount = document.getElementById('bet-amount');
+
+        this.currentMoney.textContent = "10,000";
 
     }
 
@@ -25,7 +30,7 @@ export default class OutputView {
         this.betButton.disabled = true;
         this.stopButton.disabled = true;
         this.resultBox.style.display = 'block';
-        this.resultContent.innerText = "룰렛을 돌리는 중";
+        this.resultContent.innerText = '룰렛을 돌리는 중...';
     }
 
     showAlert(message) {
@@ -33,9 +38,23 @@ export default class OutputView {
     }
 
     end(result) {
-        document.getElementById("game-controls").style.display = "none";
-        this.restartButton.style.display = "block";
+        this.gameControls.style.display = 'none';
+        this.restartButton.style.display = 'block';
         this.resultContent.innerHTML = result;
-        this.resultBox.style.display = "block";
+        this.resultBox.style.display = 'block';
+    }
+
+    restart() {
+        this.currentMoney.textContent = '10,000';
+        this.currentRound.textContent = '0';
+        this.colorSelect.value = '';
+        this.betAmount.value = '';
+
+        this.betButton.disabled = false;
+        this.stopButton.disabled = false;
+        this.gameControls.style.display = 'block';
+        this.resultBox.style.display = 'none';
+        this.resultContent.innerHTML = '';
+        this.restartButton.style.display = 'none';
     }
 }

@@ -3,6 +3,7 @@ export default class InputView {
         this.colorSelect = document.getElementById('color-select');
         this.betButton = document.getElementById('bet-button');
         this.stopButton = document.getElementById('stop-button');
+        this.restartButton = document.getElementById('restart-button');
         this.betAmount = document.getElementById('bet-amount');
         this.currentRound = document.getElementById('current-round');
         this.currentMoney = document.getElementById('current-money');
@@ -27,5 +28,13 @@ export default class InputView {
 
             handler(this.currentMoney.textContent, parseInt(this.currentRound.textContent));
         })
+    }
+
+    bindRestartEvent(handler) {
+        this.restartButton.addEventListener('click', (event) => {
+            event.preventDefault();
+
+            handler();
+        });
     }
 }
