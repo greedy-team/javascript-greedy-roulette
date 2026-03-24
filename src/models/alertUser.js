@@ -1,7 +1,7 @@
 export default alertUser
 
 function alertUser(BettingMoney,UserColor,UserAccount){
-    if (!isInputPossible(BettingMoney)) {
+    if (!isInputPossible(BettingMoney,UserAccount)) {
         alert("자금보다 작고 0보다 크게 설정해주세요!");
         return true;
     }
