@@ -54,7 +54,7 @@ class Roulette {
   calculatePayout(betAmount, result) {
     // 선택한 색상과 rouletteSpin에서 나온 랜덤 룰렛 결과가 일치하는지 확인
     if (this.checkWinner(colorSelect.value, result)) {
-      return betAmount * rouletteBets[result];
+      return betAmount + betAmount * rouletteBets[result]; // 성공시 원금을 더 더해야함
     }
     return 0;
   }
@@ -130,7 +130,13 @@ class Roulette {
     this.balance += payout;
     this.addRound();
     currentMoney.textContent = formatMoney(this.balance);
-    resultContent.innerHTML = `룰렛 결과: <span class="${result.toLowerCase()}">${result}</span><br>배당금: ${formatMoney(payout)}원`;
+
+    // 베팅 성공 여부에 따른 분기 처리
+    const isWin = payout > 0;
+    const message = isWin
+      ? `베팅 성공! +${formatMoney(payout)}원`
+      : `베팅 실패! -${formatMoney(Number(betAmount.value))}원`;
+    resultContent.innerHTML = `룰렛 결과: <span class="${result.toLowerCase()}">${result}</span><br>${message}`;
   }
 
   checkWinner(color, result) {
