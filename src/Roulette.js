@@ -11,12 +11,13 @@ export default class Roulette {
     this.round = 0;
   }
 
-  calculatePayout(betAmount, result) {}
+  calculatePayout(color, betAmount, result) {}
 
   rouletteSpin() {}
 
-  //라운드 증가 메서드
   addRound() {}
+  addPayout(payout) {}
+  subtractBet(betAmount) {}
 
   randomResult() {
     return Math.floor(Math.random() * NUMBER_OF_SLOTS);
@@ -37,4 +38,8 @@ export default class Roulette {
   isWinner(color, result) {
     return color === result;
   }
+
+  isBacnkrupt() {}
+
+  reset() {}
 }
