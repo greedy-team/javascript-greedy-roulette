@@ -18,7 +18,7 @@ import {
   showEndGame,
 } from "./dom.js";
 
-betButton.addEventListener("click", () => {});
+betButton.addEventListener("click", handleBetClick);
 
 stopButton.addEventListener("click", () => {});
 
@@ -29,5 +29,37 @@ const roulette = new Roulette();
 initRoulette(INITIAL_BALANCE);
 
 // 베팅 결과
+function handleBetResult(color, amount) {
+  const result = roulette.rouletteSpin();
+  const payout = roulette.calculatePayout(color, amount, result);
+  roulette.addPayout(payout);
+  roulette.addRound();
+  showResult(result, payout, amount);
+  updateMoneyDisplay(roulette.balance);
+  updateRoundDisplay(roulette.round);
+
+  if (roulette.isBankrupt()) {
+    showBankruptMessage();
+    setTimeout(() => showEndGame(roulette.balance, roulette.round), 2000);
+  } else {
+    enableButtons();
+  }
+}
 
 // 베팅 클릭
+function handleBetClick() {
+  const color = colorSelect.value;
+  const betAmountValue = betAmount.value;
+  try {
+    roulette.validateBet(color, betAmountValue);
+  } catch (error) {
+    alert(error.message);
+    return;
+  }
+  const amount = Number(betAmountValue);
+  roulette.subtractBet(amount);
+  updateMoneyDisplay(roulette.balance);
+  disableButtons();
+  showSpinning();
+  setTimeout(() => handleBetResult(color, amount), 2000);
+}
