@@ -11,13 +11,31 @@ export default class Roulette {
     this.round = 0;
   }
 
-  calculatePayout(color, betAmount, result) {}
+  calculatePayout(color, betAmount, result) {
+    if (this.isWinner(color, result)) {
+      return betAmount + betAmount * COLOR_REWARD_RATE[color];
+    }
+    return 0;
+  }
 
-  rouletteSpin() {}
+  rouletteSpin() {
+    const result = this.randomResult();
+    if (result < COLOR_SLOT_RANGES.YELLOW) return "YELLOW";
+    if (result < COLOR_SLOT_RANGES.GREEN) return "GREEN";
+    if (result < COLOR_SLOT_RANGES.BLUE) return "BLUE";
+    if (result < COLOR_SLOT_RANGES.PURPLE) return "PURPLE";
+    return "RED";
+  }
 
-  addRound() {}
-  addPayout(payout) {}
-  subtractBet(betAmount) {}
+  addRound() {
+    this.round += 1;
+  }
+  addPayout(payout) {
+    this.balance += payout;
+  }
+  subtractBet(betAmount) {
+    this.balance -= betAmount;
+  }
 
   randomResult() {
     return Math.floor(Math.random() * NUMBER_OF_SLOTS);
@@ -39,7 +57,12 @@ export default class Roulette {
     return color === result;
   }
 
-  isBacnkrupt() {}
+  isBankrupt() {
+    return this.balance <= 0;
+  }
 
-  reset() {}
+  reset() {
+    this.balance = INITIAL_BALANCE;
+    this.round = 0;
+  }
 }
