@@ -10,7 +10,10 @@
   "author": "greedy-team",
   "license": "MIT",
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "cypress": "^15.9.0",
+    "eslint": "^10.1.0",
+    "globals": "^17.4.0",
     "serve": "^14.0.0",
     "start-server-and-test": "^2.0.0"
   },
