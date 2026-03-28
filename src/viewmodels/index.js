@@ -18,13 +18,14 @@ const restartBtn = document.getElementById("restart-button");
 function playBetting() {
     const userColor = document.getElementById("color-select").value;
     const rouletteColor = getRouletteColor();
-    const bettingMoney = Number(document.getElementById("bet-amount").value);
-    const error=getValidationError(BettingMoney, UserColor, UserAccount);
+    const money = document.getElementById("bet-amount").value;
+    const error=getValidationError(money, userColor, userAccount);
 
     if (error) {
         alert(error)
         return null;
     }
+    const bettingMoney=Number(money);
     userAccount -= bettingMoney;
     currentRound++;
     waitingForResult(userAccount);

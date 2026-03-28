@@ -3,7 +3,7 @@ export default function getValidationError(bettingMoney,userColor,userAccount){
         //alert("금액을 입력해주세요!");
         return "금액을 입력해주세요!";
     }
-    if (!isInputPossible(bettingMoney,UserAccount)) {
+    if (!isInputPossible(bettingMoney,userAccount)) {
         //alert("자금보다 작고 0보다 크게 설정해주세요!");
         return "자금보다 작고 0보다 크게 설정해주세요!";
     }
@@ -35,7 +35,7 @@ function isNotInputNothing(bettingMoney) {
     return true;
 }
 function isInt(bettingMoney) {
-    if (!(Number.isInteger(bettingMoney))) {
+    if (!(Number.isInteger(Number(bettingMoney)))) {
         return false;
     }
     return true;
