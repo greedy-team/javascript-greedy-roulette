@@ -7,51 +7,54 @@ import restartBetting from "../views/restartBetting.js";
 import getValidationError from "../views/getValidationError.js";
 import updateStatus from "../views/updateStatus.js";
 import ifNotAccountZero from "../views/enableBettingButtons.js";
-let UserAccount = 10000;
-let CurrentRound = 0;
+import calculateBonusMoney from "../models/calculateBonusMoney.js"
+let userAccount = 10000;
+let currentRound = 0;
 
 const betBtn = document.getElementById("bet-button");
 const stopBtn = document.getElementById("stop-button");
 const restartBtn = document.getElementById("restart-button");
 
 function playBetting() {
-    const UserColor = document.getElementById("color-select").value;
-    const RouletteColor = getRouletteColor();
-    const BettingMoney = Number(document.getElementById("bet-amount").value);
+    const userColor = document.getElementById("color-select").value;
+    const rouletteColor = getRouletteColor();
+    const bettingMoney = Number(document.getElementById("bet-amount").value);
     const error=getValidationError(BettingMoney, UserColor, UserAccount);
 
     if (error) {
         alert(error)
         return null;
     }
-    UserAccount -= BettingMoney;
-    CurrentRound++;
-    waitingForResult(UserAccount);
-    setTimeout(()=>{UserAccount=BettingProcess(UserColor,RouletteColor,BettingMoney,UserAccount,CurrentRound)}, 2000)
+    userAccount -= bettingMoney;
+    currentRound++;
+    waitingForResult(userAccount);
+    setTimeout(()=>{userAccount=BettingProcess(userColor,rouletteColor,bettingMoney,userAccount,currentRound)}, 2000)
 }
-function BettingProcess(UserColor,RouletteColor,BettingMoney,UserAccount,CurrentRound) {
-    if (UserColor === RouletteColor) {
-        UserAccount += successBetting(RouletteColor, UserColor, BettingMoney);
+function BettingProcess(userColor,rouletteColor,bettingMoney,userAccount,currentRound) {
+    if (userColor === rouletteColor) {
+        const bonusMoney=calculateBonusMoney(userColor, bettingMoney)
+        successBetting(rouletteColor,bonusMoney);
+        userAccount += bonusMoney
     } else {
-        showFailBetting(RouletteColor, BettingMoney);
+        showFailBetting(rouletteColor, bettingMoney);
     }
-    updateStatus(UserAccount,CurrentRound);
-    if (UserAccount <= 0) {
-        showFailBetting(RouletteColor, BettingMoney);
-        stopPlayBetting(UserAccount, CurrentRound);
+    updateStatus(userAccount,currentRound);
+    if (userAccount <= 0) {
+        showFailBetting(rouletteColor, bettingMoney);
+        stopPlayBetting(userAccount, currentRound);
     } else {
         ifNotAccountZero();
     }
-    return UserAccount;
+    return userAccount;
 }
 
 betBtn.onclick = playBetting;
 stopBtn.onclick = () => {
-    stopPlayBetting(UserAccount, CurrentRound);
+    stopPlayBetting(userAccount, currentRound);
 }
 restartBtn.onclick = () => {
-    CurrentRound=0;
-    UserAccount=10000;
-    restartBetting(UserAccount, CurrentRound);
+    currentRound=0;
+    userAccount=10000;
+    restartBetting(userAccount, currentRound);
 }
 

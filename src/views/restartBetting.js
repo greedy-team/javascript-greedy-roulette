@@ -1,19 +1,19 @@
-export default function restartBetting(UserAccount,CurrentRound) {
-    const ResultBox = document.getElementById("result-content");
+export default function restartBetting(userAccount,currentRound) {
+    const resultBox = document.getElementById("result-content");
     const ColorSelect = document.getElementById("color-select");
-    const BetBtn = document.getElementById("bet-button");
-    const StopBtn = document.getElementById("stop-button");
-    const RestartBtn = document.getElementById("restart-button");
+    const betBtn = document.getElementById("bet-button");
+    const stopBtn = document.getElementById("stop-button");
+    const restartBtn = document.getElementById("restart-button");
     ColorSelect.value = "";
-    BetBtn.disabled = false;
-    StopBtn.disabled = false;
-    BetBtn.style.display = 'block';
-    StopBtn.style.display = 'block';
-    RestartBtn.style.display = 'none';
+    betBtn.disabled = false;
+    stopBtn.disabled = false;
+    betBtn.style.display = 'block';
+    stopBtn.style.display = 'block';
+    restartBtn.style.display = 'none';
     document.getElementById("game-controls").style.display = "block";
-    ResultBox.innerHTML = "";
-    document.getElementById("current-money").innerHTML = Number(UserAccount).toLocaleString();
-    document.getElementById("current-round").innerHTML = CurrentRound;
+    resultBox.innerHTML = "";
+    document.getElementById("current-money").innerHTML = Number(userAccount).toLocaleString();
+    document.getElementById("current-round").innerHTML = currentRound;
     document.getElementById("bet-amount").value = null;
     
 }
