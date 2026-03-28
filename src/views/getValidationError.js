@@ -1,7 +1,6 @@
 export default getValidationError
 
 function getValidationError(BettingMoney,UserColor,UserAccount){
-    console.log("베팅머니:",BettingMoney);
     if(!isNotInputNothing(BettingMoney)){
         //alert("금액을 입력해주세요!");
         return "금액을 입력해주세요!";
@@ -38,7 +37,7 @@ function isNotInputNothing(BettingMoney) {
     return true;
 }
 function isInt(BettingMoney) {
-    if (!(Number.isInteger(Number(BettingMoney)))) {
+    if (!(Number.isInteger(BettingMoney))) {
         return false;
     }
     return true;
