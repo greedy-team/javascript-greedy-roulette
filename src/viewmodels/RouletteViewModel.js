@@ -1,33 +1,24 @@
 import { model } from '../models/RouletteModel.js';
-import { view } from '../views/RouletteView.js';
 
 export const viewModel = {
+    
+    //방송해 줄 함수 초기화
+    onMoneyChange: null,
+    onRoundChange: null,
+    onResultChange: null,
+    onStateChange: null, 
+    onBankrupt: null,
+
     init() {
         model.reset();
-        view.init();
-        view.updateMoney(model.data.currentMoney);
-        view.updateRound(model.data.currentRound);
-        view.updateResult("");
+        // null 값이 아니면 방송
+        if(this.onStateChange) this.onStateChange('init');
+        if(this.onMoneyChange) this.onMoneyChange(model.data.currentMoney);
+        if(this.onRoundChange) this.onRoundChange(model.data.currentRound);
+        if(this.onResultChange) this.onResultChange("");
     },
 
-    setupGameEventListeners() {
-        view.el.$betButton.addEventListener('click', () => this.processBettingFlow());
-        
-        view.el.$stopButton.addEventListener('click', () => {
-            view.el.$resultBox.style.display = 'block';
-            view.updateResult("게임이 곧 종료됩니다.");
-            setTimeout(() => view.showEndGame(model.data.currentMoney, model.data.currentRound), 2000);
-        });
-
-        view.el.$restartButton.addEventListener('click', () => {
-            view.updateResult("새 게임을 시작합니다!");
-            this.init(); 
-        });
-    },
-
-    processBettingFlow() {
-        const selectedColor = view.el.$colorSelect.value;
-        const getAmount = view.el.$betAmountInput.value; 
+    processBettingFlow(selectedColor, getAmount) {
 
         if (!this.isValid(selectedColor, getAmount)) {
             return; 
@@ -35,9 +26,13 @@ export const viewModel = {
 
         const amount = Number(getAmount);
         model.data.currentMoney -= amount;
-        view.updateMoney(model.data.currentMoney); 
 
-        view.showWaitingState();
+        if(this.onMoneyChange){
+            this.onMoneyChange(model.data.currentMoney);
+        }
+        if(this.onStateChange){
+            this.onStateChange('waiting');
+        }
 
         setTimeout(() => {
             this.RouletteResult(selectedColor, amount);
@@ -70,7 +65,7 @@ export const viewModel = {
 
     RouletteResult(selectedColor, amount) {
         model.data.currentRound += 1;
-        view.updateRound(model.data.currentRound);
+        if(this.onRoundChange) this.onRoundChange(model.data.currentRound);
 
         const randomNumber = Math.floor(Math.random() * 40) + 1;
         const resultColor = model.getResultColor(randomNumber);
@@ -80,7 +75,9 @@ export const viewModel = {
         if(this.bankruptCheck()){
             return;
         }
-        view.showActiveState();
+        if(this.onStateChange){
+            this.onStateChange('active');
+        }
     },
 
     judgeResult(selectedColor, resultColor, amount){
@@ -91,23 +88,24 @@ export const viewModel = {
                 const winAmount = Math.floor(amount + (amount * multiplier));
                 
                 model.data.currentMoney += winAmount; 
-                view.updateMoney(model.data.currentMoney);
+                if(this.onMoneyChange) this.onMoneyChange(model.data.currentMoney);
                 resultMessage = `베팅 성공! +${winAmount.toLocaleString()}원`;
             } else {
                 resultMessage = `베팅 실패! -${amount.toLocaleString()}원`;
             }
 
-            view.updateResult(`룰렛 결과: ${resultColor}<br>${resultMessage}`);
+            if(this.onResultChange) this.onResultChange(`룰렛 결과: ${resultColor}<br>${resultMessage}`);
     },
     
     bankruptCheck(){
         if (model.data.currentMoney <= 0) {
-            view.el.$resultContent.innerHTML += `<br>게임이 곧 종료됩니다.`;
-            view.el.$betButton.disabled = true;
-            view.el.$stopButton.disabled = true;
-            setTimeout(() => view.showEndGame(model.data.currentMoney, model.data.currentRound), 2000);
+            if(this.onBankrupt) this.onBankrupt(model.data.currentMoney, model.data.currentRound)
             return true;
         }
         return false;
+    },
+
+    stopGame() {
+        if(this.onStateChange) this.onStateChange('endGame', model.data.currentMoney, model.data.currentRound);
     }
 };
