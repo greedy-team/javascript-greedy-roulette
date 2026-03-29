@@ -26,12 +26,11 @@ export const model = {
     },
 
     getMultiplier(resultColor) {
-        let multiplier = 0;
-        if (resultColor === "YELLOW") multiplier = 1;
-        else if (resultColor === "GREEN") multiplier = 3.0;
-        else if (resultColor === "BLUE") multiplier = 5.0;
-        else if (resultColor === "PURPLE") multiplier = 10.0;
-        else if (resultColor === "RED") multiplier = 20.0;
-        return multiplier;
+        if (resultColor === "YELLOW") return 1;
+        else if (resultColor === "GREEN") return 3.0;
+        else if (resultColor === "BLUE") return 5.0;
+        else if (resultColor === "PURPLE") return 10.0;
+        else if (resultColor === "RED") return 20.0;
+        return 0;
     }
 };
