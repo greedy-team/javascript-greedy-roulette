@@ -10,19 +10,21 @@ export const model = {
     },
 
     getResultColor(randomNumber) {
-        let resultColor = "";
-        if (randomNumber <= 21) {
-            resultColor = "YELLOW";
-        } else if (randomNumber <= 31) {
-            resultColor = "GREEN";
-        } else if (randomNumber <= 37) {
-            resultColor = "BLUE";
-        } else if (randomNumber <= 39) {
-            resultColor = "PURPLE";
-        } else {
-            resultColor = "RED";
-        }
-        return resultColor;
+
+        const table={
+            YELLOW: 21,
+            GREEN: 10,
+            BLUE: 6,
+            PURPLE: 2,
+            RED: 1
+        };
+
+        if (randomNumber <= table.YELLOW) return "YELLOW";
+        if (randomNumber <= table.YELLOW + table.GREEN) return "GREEN";
+        if (randomNumber <= table.YELLOW + table.GREEN + table.BLUE) return "BLUE";
+        if (randomNumber <= table.YELLOW + table.GREEN + table.BLUE + table.PURPLE) return "PURPLE";
+    
+        return "RED";
     },
 
     getMultiplier(resultColor) {
