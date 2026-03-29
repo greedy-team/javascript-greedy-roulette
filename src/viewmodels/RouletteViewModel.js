@@ -46,7 +46,7 @@ export const viewModel = {
         }
 
         const amount = Number(getAmount); 
-        if (isNaN(amount) || !/^[0-9]+$/.test(getAmount)) {
+        if (!/^[0-9]+$/.test(getAmount)) {
             alert("베팅 금액을 정확히 입력해주세요!");
             return false;
         }
