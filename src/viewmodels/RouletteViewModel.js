@@ -67,7 +67,8 @@ export const viewModel = {
         model.data.currentRound += 1;
         if(this.onRoundChange) this.onRoundChange(model.data.currentRound);
 
-        const randomNumber = Math.floor(Math.random() * 40) + 1;
+        const totalPercentage = 40;
+        const randomNumber = Math.floor(Math.random() * totalPercentage) + 1;
         const resultColor = model.getResultColor(randomNumber);
         
         this.judgeResult(selectedColor, resultColor, amount);
