@@ -72,7 +72,7 @@ export const viewModel = {
         
         this.judgeResult(selectedColor, resultColor, amount);
         
-        if(this.bankruptCheck()){
+        if(this.checkingBankrupt()){
             return;
         }
         if(this.onStateChange){
@@ -97,7 +97,7 @@ export const viewModel = {
             if(this.onResultChange) this.onResultChange(`룰렛 결과: ${resultColor}<br>${resultMessage}`);
     },
     
-    bankruptCheck(){
+    checkingBankrupt(){
         if (model.data.currentMoney <= 0) {
             if(this.onBankrupt) this.onBankrupt(model.data.currentMoney, model.data.currentRound)
             return true;
