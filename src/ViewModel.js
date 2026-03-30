@@ -1,6 +1,4 @@
 export default class ViewModel {
-    constructor() {
-    }
 
     getPayoutRate(color) {
         const payoutRate = {
