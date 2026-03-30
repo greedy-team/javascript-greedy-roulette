@@ -14,7 +14,7 @@ export default class RouletteGame {
 
     init() {
         this.InputView.bindStopEvent(this.onStop.bind(this));
-        this.InputView.bindBetEvent(this.onBet.bind(this));
+        this.InputView.bindBetEvent(this.startBet.bind(this));
         this.InputView.bindRestartEvent(this.onRestart.bind(this));
     }
 
@@ -42,7 +42,7 @@ export default class RouletteGame {
         return { money, amount };
     }
 
-    onBet(currentMoney, currentRound, selectedColor, bettedAmount) {
+    startBet(currentMoney, currentRound, selectedColor, bettedAmount) {
         try {
             const { money, amount } = this.validateBet(currentMoney, selectedColor, bettedAmount);
             const rouletteColor = this.ViewModel.getRouletteColor();
