@@ -18,10 +18,14 @@ export default class RouletteGame {
         this.InputView.bindRestartEvent(this.onRestart.bind(this));
     }
 
-    validateBet(currentMoney, selectedColor, bettedAmount) {
+    preprocessInput(currentMoney, bettedAmount) {
         const money = Number(String(currentMoney).replace(/,/g, ''));
         const amountText = String(bettedAmount).trim();
-        const amount = Number(amountText);
+
+        return { money, amountText };
+    }
+
+    validateBet(selectedColor, amountText, amount, money) {
 
         if (!selectedColor) {
             throw new Error('색상을 선택해주세요.');
@@ -31,20 +35,16 @@ export default class RouletteGame {
             throw new Error('베팅 금액은 1 이상의 정수여야 합니다.');
         }
 
-        if (!Number.isInteger(amount) || amount <= 0) {
-            throw new Error('베팅 금액은 1 이상의 정수여야 합니다.');
-        }
-
         if (amount > money) {
             throw new Error('보유 금액을 초과했습니다.');
         }
-
-        return { money, amount };
     }
 
     startBet(currentMoney, currentRound, selectedColor, bettedAmount) {
         try {
-            const { money, amount } = this.validateBet(currentMoney, selectedColor, bettedAmount);
+            const { money, amountText } = this.preprocessInput(currentMoney, bettedAmount);
+            const amount = Number(amountText);
+            this.validateBet(selectedColor, amountText, amount, money);
             const rouletteColor = this.ViewModel.getRouletteColor();
             const payoutRate = this.ViewModel.getPayoutRate(selectedColor);
             const isWin = rouletteColor === selectedColor;
