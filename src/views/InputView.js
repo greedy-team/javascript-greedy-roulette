@@ -14,11 +14,11 @@ export default class InputView {
             event.preventDefault();
             
             const currentMoney = this.currentMoney.textContent;
-            const currentRound = parseInt(this.currentRound.textContent);
+            const currentRound = parseInt(this.currentRound.textContent, 10);
             const selectedColor = this.colorSelect.value;
             const bettedAmount = this.betAmount.value;
 
-            handler(currentMoney, currentRound, selectedColor, bettedAmount);
+            handler({ currentMoney, currentRound, selectedColor, bettedAmount });
         }
     );}
 
@@ -26,7 +26,10 @@ export default class InputView {
         this.stopButton.addEventListener('click', (event) => {
             event.preventDefault();
 
-            handler(this.currentMoney.textContent, parseInt(this.currentRound.textContent));
+            const currentMoney = this.currentMoney.textContent;
+            const currentRound = parseInt(this.currentRound.textContent, 10);
+
+            handler({ currentMoney, currentRound });
         })
     }
 

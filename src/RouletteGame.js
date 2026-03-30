@@ -13,8 +13,12 @@ export default class RouletteGame {
     }
 
     init() {
-        this.InputView.bindStopEvent(this.onStop.bind(this));
-        this.InputView.bindBetEvent(this.startBet.bind(this));
+        this.InputView.bindStopEvent(({ currentMoney, currentRound }) => {
+            this.onStop(currentMoney, currentRound);
+        });
+        this.InputView.bindBetEvent(({ currentMoney, currentRound, selectedColor, bettedAmount }) => {
+            this.startBet(currentMoney, currentRound, selectedColor, bettedAmount);
+        });
         this.InputView.bindRestartEvent(this.onRestart.bind(this));
     }
 
