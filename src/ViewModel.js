@@ -23,9 +23,4 @@ export default class ViewModel {
         if (rate < 0.975) return 'PURPLE';
         return 'RED';
     }
-
-    play(color) {
-        const rouletteColor = this.getRouletteColor();
-        return color === rouletteColor;
-    }
 }
